@@ -1,6 +1,7 @@
 (function () {
   'use strict';
 
+  // Função para exibir a mensagem de sucesso
   function showMessage(msg) {
     const banner = document.createElement('div');
     banner.innerText = msg;
@@ -21,23 +22,23 @@
     setTimeout(() => banner.remove(), 5000);
   }
 
+  // Observador de alterações no DOM
   const observer = new MutationObserver((mutations) => {
     for (const mutation of mutations) {
       for (const node of mutation.addedNodes) {
-        if (node.nodeType === 1) {
-          if (node.innerText?.match(/anúncio|ad break|publicidade/i)) {
-            node.style.display = 'none';
-            showMessage('🛡️ Anúncio detectado e bloqueado! Curte a live 😎');
-          }
+        if (node.nodeType === 1 && node.innerText?.match(/anúncio|ad break|publicidade/i)) {
+          node.style.display = 'none'; // Esconde o anúncio
+          showMessage('🎉 Anúncio removido da live, curta a transmissão sem interrupções!');
         }
       }
     }
   });
 
+  // Espera o corpo do site carregar
   const waitForBody = setInterval(() => {
     if (document.body) {
       observer.observe(document.body, { childList: true, subtree: true });
-      console.log('✅ Twitch AdBlocker BR está rodando');
+      console.log('✅ Twitch AdBlocker Player ativo!');
       clearInterval(waitForBody);
     }
   }, 500);
